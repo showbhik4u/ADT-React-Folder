@@ -13,7 +13,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
-        # Ensure full repository depth
         fetch-depth: 0
     
     - name: Debug - Repository Structure
@@ -38,7 +37,6 @@ jobs:
     
     - name: Install Dependencies
       run: |
-        # Explicitly specify the working directory
         cd "$GITHUB_WORKSPACE"
         npm install
     
@@ -49,6 +47,11 @@ jobs:
     
     - name: Build
       run: npm run build
+    
+    - name: Debug - Git Configuration
+      run: |
+        git config --list
+        git submodule foreach --recursive git config --list
     
     - name: Deploy to Azure
       uses: azure/webapps-deploy@v2
