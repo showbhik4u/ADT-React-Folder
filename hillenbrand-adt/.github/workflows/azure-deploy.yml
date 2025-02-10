@@ -12,22 +12,40 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        # Ensure full repository depth
+        fetch-depth: 0
+    
+    - name: Debug - Repository Structure
+      run: |
+        pwd
+        ls -la
+        echo "Current directory contents:"
+        find . -maxdepth 2 -type f
     
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '16'
-        cache: 'npm'
     
-    - name: Debug - List Project Contents
-      run: |
-        pwd
-        ls -la
-        ls -la node_modules
+    - name: Cache node modules
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
     
     - name: Install Dependencies
       run: |
-        npm ci
+        # Explicitly specify the working directory
+        cd "$GITHUB_WORKSPACE"
+        npm install
+    
+    - name: List package-lock.json
+      run: |
+        ls -l package-lock.json
+        cat package-lock.json
     
     - name: Build
       run: npm run build
