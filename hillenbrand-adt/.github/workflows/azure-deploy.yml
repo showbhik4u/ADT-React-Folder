@@ -28,6 +28,11 @@ jobs:
         node-version: '16'
         cache: 'npm'
     
+    - name: Update Git Configuration
+      run: |
+        git config --global user.name "showbhik4u"
+        git config --global user.email "showbhik.goswamy@gmail.com"
+    
     - name: Cache node modules
       uses: actions/cache@v3
       with:
