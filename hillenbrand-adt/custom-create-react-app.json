@@ -1,0 +1,8 @@
+{
+  "extraFiles": [
+    "src/**/*.js",
+    "src/**/*.css",
+    "src/**/*.json",
+    "src/components/**/*"
+  ]
+}
